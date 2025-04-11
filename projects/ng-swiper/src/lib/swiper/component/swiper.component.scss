@@ -1,0 +1,10 @@
+.ng-swiper {
+  &--wrapper {}
+  &--pagination {
+    position: relative;
+    margin: 0 auto;
+  }
+  &--button-prev {}
+  &--button-next {}
+  &--scrollbar {}
+}

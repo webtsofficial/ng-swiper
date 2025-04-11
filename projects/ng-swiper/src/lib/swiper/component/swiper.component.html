@@ -1,0 +1,21 @@
+@let opts = currentOptions();
+
+<div class="ng-swiper--wrapper swiper-wrapper">
+  <ng-content select="[ngSwiperItem]">
+  </ng-content>
+</div>
+<!-- If we need pagination -->
+@if (opts.pagination) {
+  <div class="ng-swiper--pagination swiper-pagination"></div>
+}
+
+<!-- If we need navigation buttons -->
+@if (opts.navigation) {
+  <div class="ng-swiper--button-prev swiper-button-prev"></div>
+  <div class="ng-swiper--button-next swiper-button-next"></div>
+}
+
+<!-- If we need scrollbar -->
+@if (opts.scrollbar) {
+  <div class="ng-swiper--scrollbar swiper-scrollbar"></div>
+}
