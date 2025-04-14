@@ -1,10 +1,47 @@
-.ng-swiper {
-  &--wrapper {}
-  &--pagination {
-    position: relative;
-    margin: 0 auto;
+// Root
+.swiper {
+  // Wrapper
+  &-wrapper {}
+
+  // Navigation
+  &-button {
+    &-prev {}
+    &-next {}
   }
-  &--button-prev {}
-  &--button-next {}
-  &--scrollbar {}
+
+  // Slide
+  &-slide {
+    &-active {}
+    &-blank {}
+    &-fully-visible {}
+    &-visible {}
+    &-next {}
+    &-prev {}
+  }
+
+  // Modules
+    // Pagination
+  &-pagination {
+    &-bullet {
+      &-active {}
+    }
+    &-clickable {}
+    &-current {}
+    &-hidden {}
+    &-lock {}
+    &-disabled {}
+    &-total {}
+
+    &-progressbar {
+      &-fill {}
+      &-opposite {}
+    }
+
+    // Orientation
+    &-horizontal {}
+    &-vertical {}
+  }
+
+    // Scrollbar
+  &-scrollbar {}
 }

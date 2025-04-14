@@ -1,63 +1,197 @@
 # NgSwiper
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
+## Setup
 
-## Code scaffolding
+To setup ng-swiper, you have to add a provider, with a `SwiperConfig` in the `app.config.ts`:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+```typescript
+import {ApplicationConfig} from '@angular/core';
+import {provideNgSwiper} from '@webts/ng-swiper';
+import {Pagination} from 'swiper/modules';
 
-```bash
-ng generate component component-name
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideNgSwiper({}),
+  ]
+};
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Then you can use the `SwiperComponent`, to insert a swiper instance and fill it with `SwiperItemDirective` children (at least 1, to not get warnings):
 
-```bash
-ng generate --help
+```html
+<ng-swiper>
+  <div ngSwiperItem></div>
+</ng-swiper>
 ```
 
-## Building
-
-To build the library, run:
-
-```bash
-ng build ng-swiper
+```typescript
+@Component({
+  template: `
+    <ng-swiper>
+      <div ngSwiperItem>Item 1</div>
+      <div ngSwiperItem>Item 2</div>
+      <div ngSwiperItem>Item 3</div>
+    </ng-swiper>
+  `,
+  imports: [
+    SwiperComponent,
+    SwiperItemDirective
+  ],
+})
+export class SwiperTestPage {}
 ```
 
-This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
+Then you have to add the `swiper` styles to your `angular.json` or `main.ts`:
 
-### Publishing the Library
-
-Once the project is built, you can publish your library by following these steps:
-
-1. Navigate to the `dist` directory:
-   ```bash
-   cd dist/ng-swiper
-   ```
-
-2. Run the `npm publish` command to publish your library to the npm registry:
-   ```bash
-   npm publish
-   ```
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+**`angular.json`**
+```json
+{
+  "projects": {
+    "some-project-name": {
+      "architect": {
+        "build": {
+          "options": {
+            "styles": [
+              "node_modules/swiper/swiper.css",
+              "node_modules/swiper/modules/pagination.css"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
 ```
 
-## Running end-to-end tests
+**`main.ts`**:
+```typescript
+/// <reference types="@angular/localize" />
 
-For end-to-end (e2e) testing, run:
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
 
-```bash
-ng e2e
+import 'swiper/css';
+import 'swiper/css/pagination';
+
+bootstrapApplication(AppComponent, appConfig)
+  .catch((err) => console.error(err));
+
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Add minimum you have to import the `swiper.css` and all additional modules used.
 
-## Additional Resources
+this is also described in the [**Swiper Docs**](https://swiperjs.com/get-started) like following:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```javascript
+// core version + navigation, pagination modules:
+import Swiper from 'swiper';
+import { Navigation, Pagination } from 'swiper/modules';
+// import Swiper and modules styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// init Swiper:
+const swiper = new Swiper('.swiper', {
+  // configure Swiper to use modules
+  modules: [Navigation, Pagination],
+  ...
+});
+```
+
+> Don't forget to import all extra module styles
+
+## Modules
+
+To add modules from swiper, you have to add `SwiperFeatures` to the provide function:
+
+`app.config.ts`:
+```typescript
+import {provideNgSwiper, withPagination} from '@webts/ng-swiper';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideNgSwiper(
+      {},
+      withPagination({
+        el: '.swiper-pagination',
+        dynamicBullets: true,
+        dynamicMainBullets: 3
+      }),
+    ),
+  ]
+};
+```
+
+Here a list of the current supported features:
+
+```typescript
+export const enum SwiperFeatureKind {
+  A11y,
+  Autoplay,
+  Controller,
+  CoverflowEffect,
+  CubeEffect,
+  FadeEffect,
+  FlipEffect,
+  CreativeEffect,
+  HashNavigation,
+  History,
+  Keyboard,
+  Mousewheel,
+  Navigation,
+  Pagination,
+  Parallax,
+  Scrollbar,
+  Thumbs,
+  Virtual,
+  Zoom,
+  FreeMode,
+  Grid,
+}
+```
+
+### A11y
+
+Accessibility gets more and more important - for a good documentation I recommend [W3C Carousel Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/carousel/) documentation
+
+A sample config could look like this, when using `@angular/localize`:
+
+```typescript
+import { provideNgSwiper, withA11y } from '@webts/ng-swiper';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideNgSwiper(
+      {},
+      withA11y({
+        prevSlideMessage: $localize`:@@swiper.a11y.prevSlideMessage:Previous slide`,
+        nextSlideMessage: $localize`:@@swiper.a11y.nextSlideMessage:Next slide`,
+        firstSlideMessage: $localize`:@@swiper.a11y.firstSlideMessage:First slide`,
+        lastSlideMessage: $localize`:@@swiper.a11y.lastSlideMessage:Last slide`,
+        paginationBulletMessage: $localize`:@@swiper.a11y.paginationBulletMessage:Pagination bullet`,
+        containerMessage: $localize`:@@swiper.a11y.containerMessage:Slider Container`,
+        containerRoleDescriptionMessage: $localize`:@@swiper.a11y.containerRoleDescriptionMessage:Contains wrapper for slides and pagination, scrollbar or navigation elements`,
+        containerRole: 'region',
+        itemRoleDescriptionMessage: $localize`:@@swiper.a11y.itemRoleDescriptionMessage:Non interactive content slider container`,
+        slideLabelMessage: $localize`:@@swiper.a11y.slideLabelMessage:Slide element for content slider`,
+        slideRole: 'group',
+        scrollOnFocus: true,
+      })
+    ),
+  ]
+};
+```
+
+## Difference in defaults from swiper
+
+```typescript
+export const NG_SWIPER_DEFAULT_OPTIONS: SwiperOptions = {
+  grabCursor: true,
+}
+```
+
+- **`wrapperClass`** overwrites the swiper default to this libraries default
+- **`cssmode`** adds performance for simple use cases (but should be disabled for unit testing)
+- **`grabCursor`** adds usability to desktop / mouse users

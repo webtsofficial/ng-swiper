@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 import {SwiperComponent, SwiperItemDirective} from '@webts/ng-swiper';
 
 @Component({
-  selector: 'app-swiper-test',
+  selector: 'app-swiper-test-page',
   imports: [
     SwiperComponent,
     SwiperItemDirective
