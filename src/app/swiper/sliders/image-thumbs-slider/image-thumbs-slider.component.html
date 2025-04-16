@@ -1,0 +1,27 @@
+<h2>
+  Image thumbs swiper
+</h2>
+
+<ng-swiper #swiper>
+  <img ngSwiperItem
+       src="/images/PIA01262.jpg"
+       alt="Hubble Tracks Jupiter Storms"
+       height="800"
+       width="800" />
+  <img ngSwiperItem
+       src="/images/PIA01591.jpg"
+       alt="A Closer Hubble Encounter With Mars - Elysium"
+       height="800"
+       width="800" />
+  <img ngSwiperItem
+       src="/images/hubble-captures-vivid-auroras-in-jupiters-atmosphere_28000029525_o~orig.jpg"
+       alt="Hubble Captures Vivid Auroras in Jupiter’s Atmosphere"
+       height="2216"
+       width="2224" />
+</ng-swiper>
+
+<pre>
+  <code>
+    {{swiper.currentOptions() | json}}
+  </code>
+</pre>

@@ -3,7 +3,15 @@ import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
 import {provideClientHydration, withEventReplay} from '@angular/platform-browser';
-import { provideNgSwiper, withA11y, withPagination } from '@webts/ng-swiper';
+import {
+  provideNgSwiper,
+  withA11y,
+  withCardsEffect,
+  withConfig,
+  withController, withNavigation,
+  withPagination,
+  withThumbs,
+} from '@webts/ng-swiper';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,13 +19,19 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideNgSwiper(
-      {},
+      withConfig({
+        effect: 'cards'
+      }),
+      withNavigation({}),
       withPagination({
         el: '.swiper-pagination',
         dynamicBullets: true,
         dynamicMainBullets: 3,
         clickable: true
       }),
+      withController({}),
+      withThumbs({}),
+      withCardsEffect({}),
       withA11y({
         prevSlideMessage: $localize`:@@swiper.a11y.prevSlideMessage:Previous slide`,
         nextSlideMessage: $localize`:@@swiper.a11y.nextSlideMessage:Next slide`,

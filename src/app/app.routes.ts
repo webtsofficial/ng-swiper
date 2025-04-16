@@ -8,6 +8,6 @@ export const routes: Routes = [
   },
   {
     path: 'swiper-test',
-    loadComponent: () => import('./swiper-test').then(comp => comp.SwiperTestPage),
+    loadComponent: () => import('./swiper').then(comp => comp.SwiperTestPage),
   }
 ];

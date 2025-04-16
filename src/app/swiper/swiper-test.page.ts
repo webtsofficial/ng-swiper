@@ -1,11 +1,20 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import {SwiperComponent, SwiperItemDirective} from '@webts/ng-swiper';
+import {
+  DivSliderComponent, ImageCardSliderComponent, ImageLazySliderComponent,
+  ImageSliderComponent,
+  ImageThumbsSliderComponent,
+  ImageVirtualSliderComponent,
+} from './sliders';
 
 @Component({
   selector: 'app-swiper-test-page',
   imports: [
-    SwiperComponent,
-    SwiperItemDirective
+    DivSliderComponent,
+    ImageSliderComponent,
+    ImageThumbsSliderComponent,
+    ImageVirtualSliderComponent,
+    ImageLazySliderComponent,
+    ImageCardSliderComponent,
   ],
   templateUrl: './swiper-test.page.html',
   styleUrl: './swiper-test.page.scss',

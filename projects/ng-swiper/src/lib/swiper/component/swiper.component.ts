@@ -3,12 +3,12 @@ import {
   ChangeDetectionStrategy,
   Component, computed,
   contentChildren, effect,
-  ElementRef, forwardRef,
+  ElementRef,
   inject, input, OnDestroy, PLATFORM_ID,
   ViewEncapsulation,
 } from '@angular/core';
-import Swiper from 'swiper';
-import { NG_SWIPER_DEFAULT_OPTIONS, NG_SWIPER_OPTIONS } from '../swiper.provider';
+import Swiper from 'swiper/core';
+import { NG_SWIPER_OPTIONS } from '../swiper.provider';
 import {SwiperItemDirective} from '../item';
 import {isPlatformBrowser} from '@angular/common';
 import { SwiperEvents, SwiperOptions } from 'swiper/types';
@@ -37,7 +37,7 @@ export class SwiperComponent implements AfterViewInit, OnDestroy {
   options = input<SwiperOptions>();
 
   /** Merged `NG_SWIPER_OPTIONS` and `options` input into one object */
-  currentOptions = computed(() => ({
+  currentOptions = computed<SwiperOptions>(() => ({
     ...this._default_options,
     ...this.options()
   }));
@@ -84,6 +84,15 @@ export class SwiperComponent implements AfterViewInit, OnDestroy {
    * */
   on<E extends keyof SwiperEvents>(event: E, handler: SwiperEvents[E]): void {
     this._swiper?.on<E>(event, handler);
+  }
+
+  /**
+   * Add event handler that will be removed after it was fired
+   * @param event - SwiperEvent (like 'init', 'beforeDestroy', ...)
+   * @param handler - handler function (typically `(swiper: Swiper) => void`, sometimes with extra parameters)
+   * */
+  once<E extends keyof SwiperEvents>(event: E, handler: SwiperEvents[E]): void {
+    this._swiper?.once<E>(event, handler);
   }
 
   /**

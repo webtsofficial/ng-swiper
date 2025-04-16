@@ -1,10 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, ElementRef, inject, Signal, viewChild, viewChildren } from '@angular/core';
+import { Component, DebugElement, ElementRef, inject, Signal, viewChild, viewChildren } from '@angular/core';
 
 import { SwiperComponent } from './swiper.component';
-import { provideNgSwiper, withPagination } from '../swiper.provider';
+import {
+  provideNgSwiper,
+  withA11y,
+  withAutoplay,
+  withCardsEffect,
+  withConfig,
+  withPagination,
+} from '../swiper.provider';
 import { SwiperItemDirective } from '../item';
 import { SwiperInitError, SwiperNoSlidesError } from './swiper.errors';
+import { By } from '@angular/platform-browser';
+import { A11y, Autoplay, EffectCards, Pagination } from 'swiper/modules';
 
 export interface ISwiperTestComponent {
   elRef: ElementRef;
@@ -21,6 +30,12 @@ export interface ISwiperTestComponent {
       <div ngSwiperItem>Item 4</div>
       <div ngSwiperItem>Item 5</div>
       <div ngSwiperItem>Item 6</div>
+      <div ngSwiperItem>Item 7</div>
+      <div ngSwiperItem>Item 8</div>
+      <div ngSwiperItem>Item 9</div>
+      <div ngSwiperItem>Item 10</div>
+      <div ngSwiperItem>Item 11</div>
+      <div ngSwiperItem>Item 12</div>
     </div>
   `,
   standalone: true,
@@ -59,7 +74,9 @@ describe('SwiperComponent', () => {
     it('should warn, when no items are present', async () => {
       await TestBed.configureTestingModule({
         imports: [TestSwiperWithoutItemsComponent],
-        providers: [provideNgSwiper({}),]
+        providers: [
+          provideNgSwiper(),
+        ]
       }).compileComponents();
       fixture = TestBed.createComponent(TestSwiperWithoutItemsComponent);
       component = fixture.componentInstance;
@@ -72,7 +89,9 @@ describe('SwiperComponent', () => {
     it('should throw SwiperInitError, when wrapper is no Element', async () => {
       await TestBed.configureTestingModule({
         imports: [TestSwiperComponent],
-        providers: [provideNgSwiper({ wrapperClass: 'something-wrong' })]
+        providers: [
+          provideNgSwiper(withConfig({ wrapperClass: 'something-wrong' })),
+        ]
       }).compileComponents()
       fixture = TestBed.createComponent(TestSwiperComponent);
       swiper = fixture.componentInstance.ngSwiper();
@@ -89,9 +108,9 @@ describe('SwiperComponent', () => {
       await TestBed.configureTestingModule({
         imports: [TestSwiperComponent],
         providers: [
-          provideNgSwiper({
+          provideNgSwiper(withConfig({
             initialSlide: 1,
-          }),
+          })),
         ]
       })
         .compileComponents();
@@ -108,8 +127,12 @@ describe('SwiperComponent', () => {
     });
 
     it('should initialize a swiper', () => {
-      const initializedElem: Element | null = component.elRef.nativeElement.querySelector('.swiper-initialized');
+      const initializedElem: DebugElement | null = fixture.debugElement.query(By.css('.swiper-initialized'));
       expect(initializedElem).toBeTruthy();
+    });
+
+    it('should show item in slider', () => {
+      expect(fixture.debugElement.queryAll(By.css('.swiper-slide'))?.length).toBe(12);
     });
 
     it('should be able to slide to index', () => {
@@ -127,7 +150,24 @@ describe('SwiperComponent', () => {
       expect(swiper?.activeIndex).toBe(1);
       expect(swiper?.slidePrev()).toBe(0);
 
-    })
+    });
+
+    it('should not show pagination element if not configured', () => {
+      expect(fixture.debugElement.query(By.css('.swiper-pagination'))).toBeFalsy();
+    });
+
+    it('should not show navigation elements if not configured', () => {
+      expect(fixture.debugElement.query(By.css('.swiper-button-prev'))).toBeFalsy();
+      expect(fixture.debugElement.query(By.css('.swiper-button-next'))).toBeFalsy();
+    });
+
+    it('should not show scrollbar element if not configured', () => {
+      expect(fixture.debugElement.query(By.css('.swiper-scrollbar'))).toBeFalsy();
+    });
+
+    it('should not show thumbs element if not configured', () => {
+      expect(fixture.debugElement.query(By.css('.swiper-thumbs'))).toBeFalsy();
+    });
   });
 
   describe('pagination module', () => {
@@ -135,14 +175,16 @@ describe('SwiperComponent', () => {
       await TestBed.configureTestingModule({
         imports: [TestSwiperComponent],
         providers: [
-          provideNgSwiper({
-            initialSlide: 1,
-          }),
-          withPagination({
-          }),
+          provideNgSwiper(
+            withConfig({
+              initialSlide: 1,
+            }),
+            withPagination({
+              el: '.swiper-pagination'
+            }),
+          ),
         ]
-      })
-        .compileComponents();
+      }).compileComponents();
 
       fixture = TestBed.createComponent(TestSwiperComponent);
       component = fixture.componentInstance;
@@ -151,29 +193,165 @@ describe('SwiperComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should not show pagination element if not configured', () => {
-      expect(component).toBeTruthy();
+    it('should combine pagination and global options', () => {
+      expect(swiper?.currentOptions()).toStrictEqual({
+        grabCursor: true,
+        initialSlide: 1,
+        modules: [Pagination],
+        pagination: {
+          el: '.swiper-pagination'
+        }
+      })
     });
-    it('should show pagination bullets', () => {
-      expect(component).toBeTruthy();
+
+    it('should show pagination element', () => {
+      expect(fixture.debugElement.query(By.css('.swiper-pagination'))).toBeTruthy();
     });
-    it('should apply configured `el` class', () => {
-      expect(component).toBeTruthy();
+  });
+
+  describe('a11y module', () => {
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [TestSwiperComponent],
+        providers: [
+          provideNgSwiper(
+            withConfig({
+              initialSlide: 1,
+            }),
+            withA11y({
+              prevSlideMessage: 'Previous slide',
+              nextSlideMessage: 'Next slide',
+              firstSlideMessage: 'First slide',
+              lastSlideMessage: 'Last slide',
+              paginationBulletMessage: 'Pagination bullet',
+              containerMessage: 'Slider Container',
+              containerRoleDescriptionMessage: 'Contains wrapper for slides and pagination, scrollbar or navigation elements',
+              containerRole: 'region',
+              itemRoleDescriptionMessage: 'Non interactive content slider container',
+              slideLabelMessage: 'Slide element for content slider',
+              slideRole: 'group',
+              scrollOnFocus: true,
+            }),
+          ),
+        ]
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(TestSwiperComponent);
+      component = fixture.componentInstance;
+      swiper = component.ngSwiper();
+      swiperItems = component.ngSwiperItems();
+      fixture.detectChanges();
+    });
+
+    it('should combine pagination and global options', () => {
+      expect(swiper?.currentOptions()).toStrictEqual({
+        grabCursor: true,
+        initialSlide: 1,
+        modules: [A11y],
+        a11y: {
+          prevSlideMessage: 'Previous slide',
+          nextSlideMessage: 'Next slide',
+          firstSlideMessage: 'First slide',
+          lastSlideMessage: 'Last slide',
+          paginationBulletMessage: 'Pagination bullet',
+          containerMessage: 'Slider Container',
+          containerRoleDescriptionMessage: 'Contains wrapper for slides and pagination, scrollbar or navigation elements',
+          containerRole: 'region',
+          itemRoleDescriptionMessage: 'Non interactive content slider container',
+          slideLabelMessage: 'Slide element for content slider',
+          slideRole: 'group',
+          scrollOnFocus: true,
+        }
+      })
+    });
+  });
+
+  describe('autoplay module', () => {
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [TestSwiperComponent],
+        providers: [
+          provideNgSwiper(
+            withConfig({
+              initialSlide: 1,
+            }),
+            withAutoplay({
+              delay: 4000,
+              stopOnLastSlide: true,
+              disableOnInteraction: true,
+              waitForTransition: true,
+              pauseOnMouseEnter: true,
+            }),
+          ),
+        ]
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(TestSwiperComponent);
+      component = fixture.componentInstance;
+      swiper = component.ngSwiper();
+      swiperItems = component.ngSwiperItems();
+      fixture.detectChanges();
+    });
+
+    it('should combine autoplay and global options', () => {
+      expect(swiper?.currentOptions()).toStrictEqual({
+        grabCursor: true,
+        initialSlide: 1,
+        modules: [Autoplay],
+        autoplay: {
+          delay: 4000,
+          stopOnLastSlide: true,
+          disableOnInteraction: true,
+          waitForTransition: true,
+          pauseOnMouseEnter: true,
+        }
+      })
+    });
+  });
+
+  describe('cards module', () => {
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [TestSwiperComponent],
+        providers: [
+          provideNgSwiper(
+            withConfig({
+              initialSlide: 1,
+              effect: 'cards',
+            }),
+            withCardsEffect({
+              slideShadows: true,
+              rotate: true,
+              perSlideRotate: 15,
+              perSlideOffset: 24,
+            }),
+          ),
+        ]
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(TestSwiperComponent);
+      component = fixture.componentInstance;
+      swiper = component.ngSwiper();
+      swiperItems = component.ngSwiperItems();
+      fixture.detectChanges();
+    });
+
+    it('should combine cards and global options', () => {
+      expect(swiper?.currentOptions()).toStrictEqual({
+        grabCursor: true,
+        initialSlide: 1,
+        modules: [EffectCards],
+        cardsEffect: {
+          slideShadows: true,
+          rotate: true,
+          perSlideRotate: 15,
+          perSlideOffset: 24,
+        }
+      })
     });
   });
 
   /*
-  it('should show item in slider', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should apply a11y if configured', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should apply autoplay if configured', () => {
-    expect(component).toBeTruthy();
-  });
 
   it('should apply cards if configured', () => {
     expect(component).toBeTruthy();
