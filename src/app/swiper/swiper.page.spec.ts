@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SwiperPage } from './swiper.page';
+import {provideExperimentalZonelessChangeDetection} from '@angular/core';
 
 describe('SwiperPage', () => {
   let component: SwiperPage;
@@ -8,7 +9,8 @@ describe('SwiperPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SwiperPage]
+      imports: [SwiperPage],
+      providers: [provideExperimentalZonelessChangeDetection()]
     })
     .compileComponents();
 

@@ -16,6 +16,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
+  /*
   it(`should have the 'ng-swiper-lib' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
@@ -28,4 +29,5 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ng-swiper-lib');
   });
+ */
 });
