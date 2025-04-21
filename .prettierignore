@@ -1,0 +1,11 @@
+# Ignore artifacts:
+dist
+coverage
+node_modules
+playwright-report
+.angular
+.idea
+
+# testing
+test-results
+tests-examples

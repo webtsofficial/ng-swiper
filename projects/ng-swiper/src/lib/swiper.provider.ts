@@ -1,151 +1,160 @@
-import { EnvironmentProviders, InjectionToken, makeEnvironmentProviders, Provider } from '@angular/core';
 import {
-  A11yOptions,
-  AutoplayOptions,
-  CardsEffectOptions,
-  ControllerOptions,
-  CoverflowEffectOptions,
-  CreativeEffectOptions,
-  CubeEffectOptions,
-  FadeEffectOptions,
-  FlipEffectOptions,
-  FreeModeOptions,
-  GridOptions,
-  HashNavigationOptions,
-  HistoryOptions,
-  KeyboardOptions,
-  MousewheelOptions,
-  NavigationOptions,
-  PaginationOptions,
-  ParallaxOptions,
-  ScrollbarOptions, SwiperModule,
-  SwiperOptions,
-  ThumbsOptions,
-  VirtualOptions,
-  ZoomOptions,
-} from 'swiper/types';
+    EnvironmentProviders,
+    InjectionToken,
+    makeEnvironmentProviders,
+    Provider,
+} from '@angular/core';
 import {
-  A11y,
-  Autoplay,
-  Controller,
-  EffectCards,
-  EffectCoverflow,
-  EffectCreative,
-  EffectCube,
-  EffectFade,
-  EffectFlip,
-  FreeMode,
-  Grid,
-  HashNavigation,
-  History,
-  Keyboard,
-  Mousewheel,
-  Navigation,
-  Pagination,
-  Parallax,
-  Scrollbar,
-  Thumbs,
-  Virtual,
-  Zoom,
+    A11y,
+    Autoplay,
+    Controller,
+    EffectCards,
+    EffectCoverflow,
+    EffectCreative,
+    EffectCube,
+    EffectFade,
+    EffectFlip,
+    FreeMode,
+    Grid,
+    HashNavigation,
+    History,
+    Keyboard,
+    Mousewheel,
+    Navigation,
+    Pagination,
+    Parallax,
+    Scrollbar,
+    Thumbs,
+    Virtual,
+    Zoom,
 } from 'swiper/modules';
+import {
+    A11yOptions,
+    AutoplayOptions,
+    CardsEffectOptions,
+    ControllerOptions,
+    CoverflowEffectOptions,
+    CreativeEffectOptions,
+    CubeEffectOptions,
+    FadeEffectOptions,
+    FlipEffectOptions,
+    FreeModeOptions,
+    GridOptions,
+    HashNavigationOptions,
+    HistoryOptions,
+    KeyboardOptions,
+    MousewheelOptions,
+    NavigationOptions,
+    PaginationOptions,
+    ParallaxOptions,
+    ScrollbarOptions,
+    SwiperModule,
+    SwiperOptions,
+    ThumbsOptions,
+    VirtualOptions,
+    ZoomOptions,
+} from 'swiper/types';
 
 /** Default `SwiperOption` value */
 export const NG_SWIPER_DEFAULT_OPTIONS: SwiperOptions = {
-  grabCursor: true,
+    grabCursor: true,
 };
 
 /** Global `SwiperOption` `InjectionToken`, provided by `provideNgSwiper(features)` */
-export const NG_SWIPER_OPTIONS = new InjectionToken<SwiperOptions>('Default swiper options', {
-  providedIn: 'root',
-  factory: () => NG_SWIPER_DEFAULT_OPTIONS,
-});
+export const NG_SWIPER_OPTIONS = new InjectionToken<SwiperOptions>(
+    'Default swiper options',
+    {
+        providedIn: 'root',
+        factory: () => NG_SWIPER_DEFAULT_OPTIONS,
+    },
+);
 
 /** `SwiperOption` excluding all fields, which are part of a module */
 export type NgSwiperOptions = Omit<
-  SwiperOptions,
-  'a11y'
-  | 'autoplay'
-  | 'controller'
-  | 'cardsEffect'
-  | 'coverflowEffect'
-  | 'cubeEffect'
-  | 'fadeEffect'
-  | 'flipEffect'
-  | 'creativeEffect'
-  | 'hashNavigation'
-  | 'history'
-  | 'keyboard'
-  | 'mousewheel'
-  | 'navigation'
-  | 'pagination'
-  | 'parallax'
-  | 'scrollbar'
-  | 'thumbs'
-  | 'virtual'
-  | 'zoom'
-  | 'freeMode'
-  | 'grid'
+    SwiperOptions,
+    | 'a11y'
+    | 'autoplay'
+    | 'controller'
+    | 'cardsEffect'
+    | 'coverflowEffect'
+    | 'cubeEffect'
+    | 'fadeEffect'
+    | 'flipEffect'
+    | 'creativeEffect'
+    | 'hashNavigation'
+    | 'history'
+    | 'keyboard'
+    | 'mousewheel'
+    | 'navigation'
+    | 'pagination'
+    | 'parallax'
+    | 'scrollbar'
+    | 'thumbs'
+    | 'virtual'
+    | 'zoom'
+    | 'freeMode'
+    | 'grid'
 >;
 
 /** Kind of swiper feature provided in `provideNgSwiperFeatures)` */
 export const enum SwiperFeatureKind {
-  Config,
-  A11y,
-  Autoplay,
-  Controller,
-  CardsEffect,
-  CoverflowEffect,
-  CubeEffect,
-  FadeEffect,
-  FlipEffect,
-  CreativeEffect,
-  HashNavigation,
-  History,
-  Keyboard,
-  Mousewheel,
-  Navigation,
-  Pagination,
-  Parallax,
-  Scrollbar,
-  Thumbs,
-  Virtual,
-  Zoom,
-  FreeMode,
-  Grid,
+    Config,
+    A11y,
+    Autoplay,
+    Controller,
+    CardsEffect,
+    CoverflowEffect,
+    CubeEffect,
+    FadeEffect,
+    FlipEffect,
+    CreativeEffect,
+    HashNavigation,
+    History,
+    Keyboard,
+    Mousewheel,
+    Navigation,
+    Pagination,
+    Parallax,
+    Scrollbar,
+    Thumbs,
+    Virtual,
+    Zoom,
+    FreeMode,
+    Grid,
 }
 
 /** Maps `SwiperFeatureKind` to the type of options needed for that module */
 export interface SwiperFeatureOptionsMap {
-  [SwiperFeatureKind.Config]: NgSwiperOptions,
-  [SwiperFeatureKind.A11y]: A11yOptions,
-  [SwiperFeatureKind.Autoplay]: AutoplayOptions | boolean,
-  [SwiperFeatureKind.Controller]: ControllerOptions,
-  [SwiperFeatureKind.CardsEffect]: CardsEffectOptions,
-  [SwiperFeatureKind.CoverflowEffect]: CoverflowEffectOptions,
-  [SwiperFeatureKind.CubeEffect]: CubeEffectOptions,
-  [SwiperFeatureKind.FadeEffect]: FadeEffectOptions,
-  [SwiperFeatureKind.FlipEffect]: FlipEffectOptions,
-  [SwiperFeatureKind.CreativeEffect]: CreativeEffectOptions,
-  [SwiperFeatureKind.HashNavigation]: HashNavigationOptions | boolean,
-  [SwiperFeatureKind.History]: HistoryOptions,
-  [SwiperFeatureKind.Keyboard]: KeyboardOptions,
-  [SwiperFeatureKind.Mousewheel]: MousewheelOptions,
-  [SwiperFeatureKind.Navigation]: NavigationOptions,
-  [SwiperFeatureKind.Pagination]: PaginationOptions,
-  [SwiperFeatureKind.Parallax]: ParallaxOptions,
-  [SwiperFeatureKind.Scrollbar]: ScrollbarOptions,
-  [SwiperFeatureKind.Thumbs]: ThumbsOptions,
-  [SwiperFeatureKind.Virtual]: VirtualOptions | boolean,
-  [SwiperFeatureKind.Zoom]: ZoomOptions | boolean,
-  [SwiperFeatureKind.FreeMode]: FreeModeOptions | boolean,
-  [SwiperFeatureKind.Grid]: GridOptions,
+    [SwiperFeatureKind.Config]: NgSwiperOptions;
+    [SwiperFeatureKind.A11y]: A11yOptions;
+    [SwiperFeatureKind.Autoplay]: AutoplayOptions | boolean;
+    [SwiperFeatureKind.Controller]: ControllerOptions;
+    [SwiperFeatureKind.CardsEffect]: CardsEffectOptions;
+    [SwiperFeatureKind.CoverflowEffect]: CoverflowEffectOptions;
+    [SwiperFeatureKind.CubeEffect]: CubeEffectOptions;
+    [SwiperFeatureKind.FadeEffect]: FadeEffectOptions;
+    [SwiperFeatureKind.FlipEffect]: FlipEffectOptions;
+    [SwiperFeatureKind.CreativeEffect]: CreativeEffectOptions;
+    [SwiperFeatureKind.HashNavigation]: HashNavigationOptions | boolean;
+    [SwiperFeatureKind.History]: HistoryOptions;
+    [SwiperFeatureKind.Keyboard]: KeyboardOptions;
+    [SwiperFeatureKind.Mousewheel]: MousewheelOptions;
+    [SwiperFeatureKind.Navigation]: NavigationOptions;
+    [SwiperFeatureKind.Pagination]: PaginationOptions;
+    [SwiperFeatureKind.Parallax]: ParallaxOptions;
+    [SwiperFeatureKind.Scrollbar]: ScrollbarOptions;
+    [SwiperFeatureKind.Thumbs]: ThumbsOptions;
+    [SwiperFeatureKind.Virtual]: VirtualOptions | boolean;
+    [SwiperFeatureKind.Zoom]: ZoomOptions | boolean;
+    [SwiperFeatureKind.FreeMode]: FreeModeOptions | boolean;
+    [SwiperFeatureKind.Grid]: GridOptions;
 }
 
 /** Helper type to represent a Swiper feature typed by generic `SwiperFeatureKind` */
 export interface SwiperFeature<FeatureKind extends SwiperFeatureKind> {
-  ɵkind: FeatureKind;
-  ɵproviders: Array<Provider | EnvironmentProviders>;
-  options: SwiperFeatureOptionsMap[FeatureKind];
+    ɵkind: FeatureKind;
+    ɵproviders: Array<Provider | EnvironmentProviders>;
+    options: SwiperFeatureOptionsMap[FeatureKind];
 }
 
 /**
@@ -156,17 +165,16 @@ export interface SwiperFeature<FeatureKind extends SwiperFeatureKind> {
  * @returns `SwiperFeature` object, with options and kind depending on generic
  * */
 export function swiperFeature<FeatureKind extends SwiperFeatureKind>(
-  kind: FeatureKind,
-  providers: Array<Provider | EnvironmentProviders>,
-  options: SwiperFeatureOptionsMap[FeatureKind],
+    kind: FeatureKind,
+    providers: Array<Provider | EnvironmentProviders>,
+    options: SwiperFeatureOptionsMap[FeatureKind],
 ): SwiperFeature<FeatureKind> {
-  return {
-    ɵkind: kind,
-    ɵproviders: providers,
-    options: options,
-  }
+    return {
+        ɵkind: kind,
+        ɵproviders: providers,
+        options: options,
+    };
 }
-
 
 /**
  * Creates a configuration function for the core Swiper setup.
@@ -176,9 +184,9 @@ export function swiperFeature<FeatureKind extends SwiperFeatureKind>(
  * @returns A SwiperFeature object for the core configuration.
  */
 export function withConfig(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Config]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Config],
 ): SwiperFeature<SwiperFeatureKind.Config> {
-  return swiperFeature(SwiperFeatureKind.Config, [], options);
+    return swiperFeature(SwiperFeatureKind.Config, [], options);
 }
 
 /**
@@ -189,9 +197,9 @@ export function withConfig(
  * @returns A SwiperFeature object for the A11y feature.
  */
 export function withA11y(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.A11y]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.A11y],
 ): SwiperFeature<SwiperFeatureKind.A11y> {
-  return swiperFeature(SwiperFeatureKind.A11y, [], options);
+    return swiperFeature(SwiperFeatureKind.A11y, [], options);
 }
 
 /**
@@ -201,8 +209,10 @@ export function withA11y(
  * @param options - The `AutoplayOptions | boolean` for the Autoplay module.
  * @returns A SwiperFeature object for the Autoplay feature.
  */
-export function withAutoplay(options: SwiperFeatureOptionsMap[SwiperFeatureKind.Autoplay]): SwiperFeature<SwiperFeatureKind.Autoplay> {
-  return swiperFeature(SwiperFeatureKind.Autoplay, [], options);
+export function withAutoplay(
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Autoplay],
+): SwiperFeature<SwiperFeatureKind.Autoplay> {
+    return swiperFeature(SwiperFeatureKind.Autoplay, [], options);
 }
 
 /**
@@ -213,9 +223,9 @@ export function withAutoplay(options: SwiperFeatureOptionsMap[SwiperFeatureKind.
  * @returns A SwiperFeature object for the Controller feature.
  */
 export function withController(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Controller]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Controller],
 ): SwiperFeature<SwiperFeatureKind.Controller> {
-  return swiperFeature(SwiperFeatureKind.Controller, [], options);
+    return swiperFeature(SwiperFeatureKind.Controller, [], options);
 }
 
 /**
@@ -226,9 +236,9 @@ export function withController(
  * @returns A SwiperFeature object for the Cards Effect.
  */
 export function withCardsEffect(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.CardsEffect]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.CardsEffect],
 ): SwiperFeature<SwiperFeatureKind.CardsEffect> {
-  return swiperFeature(SwiperFeatureKind.CardsEffect, [], options);
+    return swiperFeature(SwiperFeatureKind.CardsEffect, [], options);
 }
 
 /**
@@ -239,9 +249,9 @@ export function withCardsEffect(
  * @returns A SwiperFeature object for the Coverflow Effect.
  */
 export function withCoverflowEffect(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.CoverflowEffect]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.CoverflowEffect],
 ): SwiperFeature<SwiperFeatureKind.CoverflowEffect> {
-  return swiperFeature(SwiperFeatureKind.CoverflowEffect, [], options);
+    return swiperFeature(SwiperFeatureKind.CoverflowEffect, [], options);
 }
 
 /**
@@ -252,9 +262,9 @@ export function withCoverflowEffect(
  * @returns A SwiperFeature object for the Cube Effect.
  */
 export function withCubeEffect(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.CubeEffect]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.CubeEffect],
 ): SwiperFeature<SwiperFeatureKind.CubeEffect> {
-  return swiperFeature(SwiperFeatureKind.CubeEffect, [], options);
+    return swiperFeature(SwiperFeatureKind.CubeEffect, [], options);
 }
 
 /**
@@ -265,9 +275,9 @@ export function withCubeEffect(
  * @returns A SwiperFeature object for the Fade Effect.
  */
 export function withFadeEffect(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.FadeEffect]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.FadeEffect],
 ): SwiperFeature<SwiperFeatureKind.FadeEffect> {
-  return swiperFeature(SwiperFeatureKind.FadeEffect, [], options);
+    return swiperFeature(SwiperFeatureKind.FadeEffect, [], options);
 }
 
 /**
@@ -278,9 +288,9 @@ export function withFadeEffect(
  * @returns A SwiperFeature object for the Flip Effect.
  */
 export function withFlipEffect(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.FlipEffect]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.FlipEffect],
 ): SwiperFeature<SwiperFeatureKind.FlipEffect> {
-  return swiperFeature(SwiperFeatureKind.FlipEffect, [], options);
+    return swiperFeature(SwiperFeatureKind.FlipEffect, [], options);
 }
 
 /**
@@ -291,9 +301,9 @@ export function withFlipEffect(
  * @returns A SwiperFeature object for the Creative Effect.
  */
 export function withCreativeEffect(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.CreativeEffect]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.CreativeEffect],
 ): SwiperFeature<SwiperFeatureKind.CreativeEffect> {
-  return swiperFeature(SwiperFeatureKind.CreativeEffect, [], options);
+    return swiperFeature(SwiperFeatureKind.CreativeEffect, [], options);
 }
 
 /**
@@ -304,9 +314,9 @@ export function withCreativeEffect(
  * @returns A SwiperFeature object for the HashNavigation feature.
  */
 export function withHashNavigation(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.HashNavigation]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.HashNavigation],
 ): SwiperFeature<SwiperFeatureKind.HashNavigation> {
-  return swiperFeature(SwiperFeatureKind.HashNavigation, [], options);
+    return swiperFeature(SwiperFeatureKind.HashNavigation, [], options);
 }
 
 /**
@@ -317,9 +327,9 @@ export function withHashNavigation(
  * @returns A SwiperFeature object for the History feature.
  */
 export function withHistory(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.History]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.History],
 ): SwiperFeature<SwiperFeatureKind.History> {
-  return swiperFeature(SwiperFeatureKind.History, [], options);
+    return swiperFeature(SwiperFeatureKind.History, [], options);
 }
 
 /**
@@ -330,9 +340,9 @@ export function withHistory(
  * @returns A SwiperFeature object for the Keyboard feature.
  */
 export function withKeyboard(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Keyboard]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Keyboard],
 ): SwiperFeature<SwiperFeatureKind.Keyboard> {
-  return swiperFeature(SwiperFeatureKind.Keyboard, [], options);
+    return swiperFeature(SwiperFeatureKind.Keyboard, [], options);
 }
 
 /**
@@ -343,9 +353,9 @@ export function withKeyboard(
  * @returns A SwiperFeature object for the Mousewheel feature.
  */
 export function withMousewheel(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Mousewheel]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Mousewheel],
 ): SwiperFeature<SwiperFeatureKind.Mousewheel> {
-  return swiperFeature(SwiperFeatureKind.Mousewheel, [], options);
+    return swiperFeature(SwiperFeatureKind.Mousewheel, [], options);
 }
 
 /**
@@ -356,9 +366,9 @@ export function withMousewheel(
  * @returns A SwiperFeature object for the Navigation feature.
  */
 export function withNavigation(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Navigation]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Navigation],
 ): SwiperFeature<SwiperFeatureKind.Navigation> {
-  return swiperFeature(SwiperFeatureKind.Navigation, [], options);
+    return swiperFeature(SwiperFeatureKind.Navigation, [], options);
 }
 
 /**
@@ -369,9 +379,9 @@ export function withNavigation(
  * @returns A SwiperFeature object for the Pagination feature.
  */
 export function withPagination(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Pagination]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Pagination],
 ): SwiperFeature<SwiperFeatureKind.Pagination> {
-  return swiperFeature(SwiperFeatureKind.Pagination, [], options);
+    return swiperFeature(SwiperFeatureKind.Pagination, [], options);
 }
 
 /**
@@ -382,9 +392,9 @@ export function withPagination(
  * @returns A SwiperFeature object for the Parallax feature.
  */
 export function withParallax(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Parallax]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Parallax],
 ): SwiperFeature<SwiperFeatureKind.Parallax> {
-  return swiperFeature(SwiperFeatureKind.Parallax, [], options);
+    return swiperFeature(SwiperFeatureKind.Parallax, [], options);
 }
 
 /**
@@ -395,9 +405,9 @@ export function withParallax(
  * @returns A SwiperFeature object for the Scrollbar feature.
  */
 export function withScrollbar(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Scrollbar]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Scrollbar],
 ): SwiperFeature<SwiperFeatureKind.Scrollbar> {
-  return swiperFeature(SwiperFeatureKind.Scrollbar, [], options);
+    return swiperFeature(SwiperFeatureKind.Scrollbar, [], options);
 }
 
 /**
@@ -408,9 +418,9 @@ export function withScrollbar(
  * @returns A SwiperFeature object for the Thumbs feature.
  */
 export function withThumbs(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Thumbs]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Thumbs],
 ): SwiperFeature<SwiperFeatureKind.Thumbs> {
-  return swiperFeature(SwiperFeatureKind.Thumbs, [], options);
+    return swiperFeature(SwiperFeatureKind.Thumbs, [], options);
 }
 
 /**
@@ -421,9 +431,9 @@ export function withThumbs(
  * @returns A SwiperFeature object for the Virtual feature.
  */
 export function withVirtual(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Virtual]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Virtual],
 ): SwiperFeature<SwiperFeatureKind.Virtual> {
-  return swiperFeature(SwiperFeatureKind.Virtual, [], options);
+    return swiperFeature(SwiperFeatureKind.Virtual, [], options);
 }
 
 /**
@@ -434,9 +444,9 @@ export function withVirtual(
  * @returns A SwiperFeature object for the Zoom feature.
  */
 export function withZoom(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Zoom]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Zoom],
 ): SwiperFeature<SwiperFeatureKind.Zoom> {
-  return swiperFeature(SwiperFeatureKind.Zoom, [], options);
+    return swiperFeature(SwiperFeatureKind.Zoom, [], options);
 }
 
 /**
@@ -447,9 +457,9 @@ export function withZoom(
  * @returns A SwiperFeature object for the FreeMode feature.
  */
 export function withFreeMode(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.FreeMode]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.FreeMode],
 ): SwiperFeature<SwiperFeatureKind.FreeMode> {
-  return swiperFeature(SwiperFeatureKind.FreeMode, [], options);
+    return swiperFeature(SwiperFeatureKind.FreeMode, [], options);
 }
 
 /**
@@ -460,9 +470,9 @@ export function withFreeMode(
  * @returns A SwiperFeature object for the Grid feature.
  */
 export function withGrid(
-  options: SwiperFeatureOptionsMap[SwiperFeatureKind.Grid]
+    options: SwiperFeatureOptionsMap[SwiperFeatureKind.Grid],
 ): SwiperFeature<SwiperFeatureKind.Grid> {
-  return swiperFeature(SwiperFeatureKind.Grid, [], options);
+    return swiperFeature(SwiperFeatureKind.Grid, [], options);
 }
 
 /**
@@ -471,8 +481,11 @@ export function withGrid(
  * @param modules - modules to search in
  * @return true, if module is not already inside the module array
  * */
-export function moduleNotExists(module: SwiperModule, modules?: SwiperModule[]): boolean {
-  return modules?.findIndex(mods => mods.name === module.name) === -1;
+export function moduleNotExists(
+    module: SwiperModule,
+    modules?: SwiperModule[],
+): boolean {
+    return modules?.findIndex((mods) => mods.name === module.name) === -1;
 }
 
 /**
@@ -480,152 +493,153 @@ export function moduleNotExists(module: SwiperModule, modules?: SwiperModule[]):
  * @param features list of `SwiperFeature<any>[]`, which contain the options for the swiper
  * @returns constructed `SwiperOption` object
  * */
-export function combineFeaturesToOptions(...features: SwiperFeature<any>[]): SwiperOptions {
-  const options: SwiperOptions = features.find(
-      feature => feature.ɵkind === SwiperFeatureKind.Config)?.options
-    || NG_SWIPER_DEFAULT_OPTIONS;
+export function combineFeaturesToOptions(
+    ...features: SwiperFeature<any>[]
+): SwiperOptions {
+    const options: SwiperOptions =
+        features.find((feature) => feature.ɵkind === SwiperFeatureKind.Config)
+            ?.options || NG_SWIPER_DEFAULT_OPTIONS;
 
-  if (!options.modules) {
-    options.modules = [];
-  }
-  // set option from features
-  features.forEach(feature => {
-    switch (feature.ɵkind) {
-      case SwiperFeatureKind.A11y:
-        options.modules?.push(A11y);
-        options.a11y = feature.options;
-        break;
-      case SwiperFeatureKind.Autoplay:
-        if (moduleNotExists(Autoplay, options.modules)) {
-          options.modules?.push(Autoplay);
-        }
-        options.autoplay = feature.options;
-        break;
-      case SwiperFeatureKind.Controller:
-        if (moduleNotExists(Controller, options.modules)) {
-          options.modules?.push(Controller);
-        }
-        options.controller = feature.options;
-        break;
-      case SwiperFeatureKind.CardsEffect:
-        if (moduleNotExists(EffectCards, options.modules)) {
-          options.modules?.push(EffectCards);
-        }
-        options.cardsEffect = feature.options;
-        break;
-      case SwiperFeatureKind.CoverflowEffect:
-        if (moduleNotExists(EffectCoverflow, options.modules)) {
-          options.modules?.push(EffectCoverflow);
-        }
-        options.coverflowEffect = feature.options;
-        break;
-      case SwiperFeatureKind.CubeEffect:
-        if (moduleNotExists(EffectCube, options.modules)) {
-          options.modules?.push(EffectCube);
-        }
-        options.cubeEffect = feature.options;
-        break;
-      case SwiperFeatureKind.FadeEffect:
-        if (moduleNotExists(EffectFade, options.modules)) {
-          options.modules?.push(EffectFade);
-        }
-        options.fadeEffect = feature.options;
-        break;
-      case SwiperFeatureKind.FlipEffect:
-        if (moduleNotExists(EffectFlip, options.modules)) {
-          options.modules?.push(EffectFlip);
-        }
-        options.flipEffect = feature.options;
-        break;
-      case SwiperFeatureKind.CreativeEffect:
-        if (moduleNotExists(EffectCreative, options.modules)) {
-          options.modules?.push(EffectCreative);
-        }
-        options.creativeEffect = feature.options;
-        break;
-      case SwiperFeatureKind.HashNavigation:
-        if (moduleNotExists(HashNavigation, options.modules)) {
-          options.modules?.push(HashNavigation);
-        }
-        options.hashNavigation = feature.options;
-        break;
-      case SwiperFeatureKind.History:
-        if (moduleNotExists(History, options.modules)) {
-          options.modules?.push(History);
-        }
-        options.history = feature.options;
-        break;
-      case SwiperFeatureKind.Keyboard:
-        if (moduleNotExists(Keyboard, options.modules)) {
-          options.modules?.push(Keyboard);
-        }
-        options.keyboard = feature.options;
-        break;
-      case SwiperFeatureKind.Mousewheel:
-        if (moduleNotExists(Mousewheel, options.modules)) {
-          options.modules?.push(Mousewheel);
-        }
-        options.mousewheel = feature.options;
-        break;
-      case SwiperFeatureKind.Navigation:
-        if (moduleNotExists(Navigation, options.modules)) {
-          options.modules?.push(Navigation);
-        }
-        options.navigation = feature.options;
-        break;
-      case SwiperFeatureKind.Pagination:
-        if (moduleNotExists(Pagination, options.modules)) {
-          options.modules?.push(Pagination);
-        }
-        options.pagination = feature.options;
-        break;
-      case SwiperFeatureKind.Parallax:
-        if (moduleNotExists(Parallax, options.modules)) {
-          options.modules?.push(Parallax);
-        }
-        options.parallax = feature.options;
-        break;
-      case SwiperFeatureKind.Scrollbar:
-        if (moduleNotExists(Scrollbar, options.modules)) {
-          options.modules?.push(Scrollbar);
-        }
-        options.scrollbar = feature.options;
-        break;
-      case SwiperFeatureKind.Thumbs:
-        if (moduleNotExists(Thumbs, options.modules)) {
-          options.modules?.push(Thumbs);
-        }
-        options.thumbs = feature.options;
-        break;
-      case SwiperFeatureKind.Virtual:
-        if (moduleNotExists(Virtual, options.modules)) {
-          options.modules?.push(Virtual);
-        }
-        options.virtual = feature.options;
-        break;
-      case SwiperFeatureKind.Zoom:
-        if (moduleNotExists(Zoom, options.modules)) {
-          options.modules?.push(Zoom);
-        }
-        options.zoom = feature.options;
-        break;
-      case SwiperFeatureKind.FreeMode:
-        if (moduleNotExists(FreeMode, options.modules)) {
-          options.modules?.push(FreeMode);
-        }
-        options.freeMode = feature.options;
-        break;
-      case SwiperFeatureKind.Grid:
-        if (moduleNotExists(Grid, options.modules)) {
-          options.modules?.push(Grid);
-        }
-        options.grid = feature.options;
-        break;
+    if (!options.modules) {
+        options.modules = [];
     }
-  });
-  return options;
+    // set option from features
+    features.forEach((feature) => {
+        switch (feature.ɵkind) {
+            case SwiperFeatureKind.A11y:
+                options.modules?.push(A11y);
+                options.a11y = feature.options;
+                break;
+            case SwiperFeatureKind.Autoplay:
+                if (moduleNotExists(Autoplay, options.modules)) {
+                    options.modules?.push(Autoplay);
+                }
+                options.autoplay = feature.options;
+                break;
+            case SwiperFeatureKind.Controller:
+                if (moduleNotExists(Controller, options.modules)) {
+                    options.modules?.push(Controller);
+                }
+                options.controller = feature.options;
+                break;
+            case SwiperFeatureKind.CardsEffect:
+                if (moduleNotExists(EffectCards, options.modules)) {
+                    options.modules?.push(EffectCards);
+                }
+                options.cardsEffect = feature.options;
+                break;
+            case SwiperFeatureKind.CoverflowEffect:
+                if (moduleNotExists(EffectCoverflow, options.modules)) {
+                    options.modules?.push(EffectCoverflow);
+                }
+                options.coverflowEffect = feature.options;
+                break;
+            case SwiperFeatureKind.CubeEffect:
+                if (moduleNotExists(EffectCube, options.modules)) {
+                    options.modules?.push(EffectCube);
+                }
+                options.cubeEffect = feature.options;
+                break;
+            case SwiperFeatureKind.FadeEffect:
+                if (moduleNotExists(EffectFade, options.modules)) {
+                    options.modules?.push(EffectFade);
+                }
+                options.fadeEffect = feature.options;
+                break;
+            case SwiperFeatureKind.FlipEffect:
+                if (moduleNotExists(EffectFlip, options.modules)) {
+                    options.modules?.push(EffectFlip);
+                }
+                options.flipEffect = feature.options;
+                break;
+            case SwiperFeatureKind.CreativeEffect:
+                if (moduleNotExists(EffectCreative, options.modules)) {
+                    options.modules?.push(EffectCreative);
+                }
+                options.creativeEffect = feature.options;
+                break;
+            case SwiperFeatureKind.HashNavigation:
+                if (moduleNotExists(HashNavigation, options.modules)) {
+                    options.modules?.push(HashNavigation);
+                }
+                options.hashNavigation = feature.options;
+                break;
+            case SwiperFeatureKind.History:
+                if (moduleNotExists(History, options.modules)) {
+                    options.modules?.push(History);
+                }
+                options.history = feature.options;
+                break;
+            case SwiperFeatureKind.Keyboard:
+                if (moduleNotExists(Keyboard, options.modules)) {
+                    options.modules?.push(Keyboard);
+                }
+                options.keyboard = feature.options;
+                break;
+            case SwiperFeatureKind.Mousewheel:
+                if (moduleNotExists(Mousewheel, options.modules)) {
+                    options.modules?.push(Mousewheel);
+                }
+                options.mousewheel = feature.options;
+                break;
+            case SwiperFeatureKind.Navigation:
+                if (moduleNotExists(Navigation, options.modules)) {
+                    options.modules?.push(Navigation);
+                }
+                options.navigation = feature.options;
+                break;
+            case SwiperFeatureKind.Pagination:
+                if (moduleNotExists(Pagination, options.modules)) {
+                    options.modules?.push(Pagination);
+                }
+                options.pagination = feature.options;
+                break;
+            case SwiperFeatureKind.Parallax:
+                if (moduleNotExists(Parallax, options.modules)) {
+                    options.modules?.push(Parallax);
+                }
+                options.parallax = feature.options;
+                break;
+            case SwiperFeatureKind.Scrollbar:
+                if (moduleNotExists(Scrollbar, options.modules)) {
+                    options.modules?.push(Scrollbar);
+                }
+                options.scrollbar = feature.options;
+                break;
+            case SwiperFeatureKind.Thumbs:
+                if (moduleNotExists(Thumbs, options.modules)) {
+                    options.modules?.push(Thumbs);
+                }
+                options.thumbs = feature.options;
+                break;
+            case SwiperFeatureKind.Virtual:
+                if (moduleNotExists(Virtual, options.modules)) {
+                    options.modules?.push(Virtual);
+                }
+                options.virtual = feature.options;
+                break;
+            case SwiperFeatureKind.Zoom:
+                if (moduleNotExists(Zoom, options.modules)) {
+                    options.modules?.push(Zoom);
+                }
+                options.zoom = feature.options;
+                break;
+            case SwiperFeatureKind.FreeMode:
+                if (moduleNotExists(FreeMode, options.modules)) {
+                    options.modules?.push(FreeMode);
+                }
+                options.freeMode = feature.options;
+                break;
+            case SwiperFeatureKind.Grid:
+                if (moduleNotExists(Grid, options.modules)) {
+                    options.modules?.push(Grid);
+                }
+                options.grid = feature.options;
+                break;
+        }
+    });
+    return options;
 }
-
 
 /**
  * provides basic swiper config for the application
@@ -633,13 +647,16 @@ export function combineFeaturesToOptions(...features: SwiperFeature<any>[]): Swi
  * @returns environment providers for swiper
  * */
 export function provideNgSwiper(
-  ...features: SwiperFeature<any>[]
+    ...features: SwiperFeature<any>[]
 ): EnvironmentProviders {
-  return makeEnvironmentProviders([
-    {
-      provide: NG_SWIPER_OPTIONS,
-      useValue: { ...NG_SWIPER_DEFAULT_OPTIONS, ...combineFeaturesToOptions(...features) }
-    },
-    ...features.map(feature => feature.ɵproviders),
-  ]);
+    return makeEnvironmentProviders([
+        {
+            provide: NG_SWIPER_OPTIONS,
+            useValue: {
+                ...NG_SWIPER_DEFAULT_OPTIONS,
+                ...combineFeaturesToOptions(...features),
+            },
+        },
+        ...features.map((feature) => feature.ɵproviders),
+    ]);
 }
