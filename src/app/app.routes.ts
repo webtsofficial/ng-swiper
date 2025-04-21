@@ -17,4 +17,9 @@ export const routes: Routes = [
       }
     ]
   },
+  {
+    path: '**',
+    redirectTo: 'swiper',
+    pathMatch: 'prefix'
+  }
 ];

@@ -9,9 +9,14 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideExperimentalZonelessChangeDetection(),
     provideRouter(routes),
-    provideClientHydration(withEventReplay()), provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          }),
+    provideClientHydration(
+      withEventReplay(),
+    ),
+    provideServiceWorker(
+      'ngsw-worker.js', {
+          enabled: !isDevMode(),
+          registrationStrategy: 'registerWhenStable:30000'
+      }
+    ),
   ]
 };

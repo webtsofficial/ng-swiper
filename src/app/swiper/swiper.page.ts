@@ -1,11 +1,14 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
 
 @Component({
   selector: 'app-swiper',
   imports: [
     RouterOutlet,
-    RouterLink,
+    MatSidenavModule,
+    MatListModule,
   ],
   templateUrl: './swiper.page.html',
   styleUrl: './swiper.page.scss',
@@ -13,5 +16,4 @@ import {RouterLink, RouterOutlet} from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SwiperPage {
-
 }
