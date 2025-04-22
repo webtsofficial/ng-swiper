@@ -1,4 +1,7 @@
-<ng-swiper [options]="options">
+<h3>
+    A11y
+</h3>
+<ng-swiper [options]="options" #swiper>
     <img
         ngSwiperItem
         src="/images/PIA01262.jpg"
@@ -21,3 +24,16 @@
         width="2224"
         loading="lazy" />
 </ng-swiper>
+
+<h4>
+    SwiperOptions
+</h4>
+
+<pre>
+    <code>
+        a11y: {{swiper.currentOptions().a11y | json}}
+    </code>
+    <code>
+        navigation: {{swiper.currentOptions().navigation | json}}
+    </code>
+</pre>

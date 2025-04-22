@@ -641,6 +641,36 @@ export function combineFeaturesToOptions(
     return options;
 }
 
+export interface SwiperElements {
+    navigation?: {
+        prevEl?: HTMLElement | string;
+        nextEl?: HTMLElement | string;
+    };
+    pagination?: {
+        el?: HTMLElement | string;
+    }
+    thumbs?: {
+        el?: HTMLElement | string;
+    };
+}
+
+export function mapOptions(opts: SwiperOptions, elements: SwiperElements): SwiperOptions {
+    if (opts.navigation) {
+        if (typeof opts.navigation === 'boolean') {
+            opts.navigation = { enabled: true };
+        }
+        opts.navigation.prevEl = opts.navigation?.prevEl || elements.navigation?.prevEl;
+        opts.navigation.nextEl = opts.navigation?.nextEl || elements.navigation?.nextEl;
+    }
+    if (opts.pagination) {
+        if (typeof opts.pagination === 'boolean') {
+            opts.pagination = { enabled: true };
+        }
+        opts.pagination.el = opts.pagination?.el || elements.pagination?.el;
+    }
+    return opts;
+}
+
 /**
  * provides basic swiper config for the application
  * @param features `NgSwiperFeature` for module configs like pagination or navigation

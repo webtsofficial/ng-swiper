@@ -3,15 +3,17 @@ import {
     Component,
     ViewEncapsulation,
 } from '@angular/core';
-import { SwiperComponent, SwiperItemDirective } from 'ng-swiper';
-import { A11y, Navigation } from 'swiper/modules';
-import { SwiperOptions } from 'swiper/types';
+import {SwiperComponent, SwiperItemDirective} from 'ng-swiper';
+import {A11y, Navigation} from 'swiper/modules';
+import {SwiperOptions} from 'swiper/types';
+import {JsonPipe} from '@angular/common';
 
 @Component({
     selector: 'app-a11y-swiper',
     imports: [
         SwiperComponent,
         SwiperItemDirective,
+        JsonPipe,
     ],
     templateUrl: './a11y-swiper.tab.html',
     styleUrl: './a11y-swiper.tab.scss',
