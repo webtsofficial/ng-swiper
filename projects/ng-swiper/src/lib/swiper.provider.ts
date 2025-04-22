@@ -648,25 +648,40 @@ export interface SwiperElements {
     };
     pagination?: {
         el?: HTMLElement | string;
-    }
-    thumbs?: {
+    },
+    scrollbar?: {
         el?: HTMLElement | string;
-    };
+    },
+    history?: {
+        root?: string;
+    }
 }
 
-export function mapOptions(opts: SwiperOptions, elements: SwiperElements): SwiperOptions {
+export function mapOptions(opts: SwiperOptions, config: SwiperElements): SwiperOptions {
     if (opts.navigation) {
         if (typeof opts.navigation === 'boolean') {
             opts.navigation = { enabled: true };
         }
-        opts.navigation.prevEl = opts.navigation?.prevEl || elements.navigation?.prevEl;
-        opts.navigation.nextEl = opts.navigation?.nextEl || elements.navigation?.nextEl;
+        opts.navigation.prevEl = opts.navigation?.prevEl || config.navigation?.prevEl;
+        opts.navigation.nextEl = opts.navigation?.nextEl || config.navigation?.nextEl;
     }
     if (opts.pagination) {
         if (typeof opts.pagination === 'boolean') {
             opts.pagination = { enabled: true };
         }
-        opts.pagination.el = opts.pagination?.el || elements.pagination?.el;
+        opts.pagination.el = opts.pagination?.el || config.pagination?.el;
+    }
+    if (opts.scrollbar) {
+        if (typeof opts.scrollbar === 'boolean') {
+            opts.scrollbar = { enabled: true };
+        }
+        opts.scrollbar.el = opts.scrollbar?.el || config.scrollbar?.el;
+    }
+    if (opts.history) {
+        if (typeof opts.history === 'boolean') {
+            opts.history = { enabled: true };
+        }
+        opts.history.root = opts.history?.root || config.history?.root;
     }
     return opts;
 }

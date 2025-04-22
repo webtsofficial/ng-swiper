@@ -17,6 +17,6 @@ export class SwiperItemDirective {
     private _swiper = inject(SwiperComponent, { host: true });
 
     get options(): SwiperOptions {
-        return this._swiper.options() || this._swiper.optionsGlobal;
+        return this._swiper.currentOptions();
     }
 }

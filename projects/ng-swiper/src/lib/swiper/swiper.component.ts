@@ -16,6 +16,7 @@ import {SwiperOptions} from 'swiper/types';
 import {mapOptions, NG_SWIPER_OPTIONS} from '../swiper.provider';
 import {SwiperItemDirective} from './item';
 import {SwiperInitError, SwiperNoSlidesError} from './swiper.errors';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'ng-swiper',
@@ -35,6 +36,7 @@ export class SwiperComponent implements AfterContentInit, AfterViewInit {
 
     private _injector = inject(Injector);
     private _elRef: ElementRef<HTMLElement> = inject(ElementRef);
+    private _router = inject(Router);
     optionsGlobal = inject(NG_SWIPER_OPTIONS);
     swiper?: Swiper;
     options = input<SwiperOptions>();
@@ -50,8 +52,11 @@ export class SwiperComponent implements AfterContentInit, AfterViewInit {
             pagination: {
                 el: '.swiper-pagination',
             },
-            thumbs: {
-                el: '.' + opts.thumbs?.thumbsContainerClass || '.swiper-thumbs',
+            scrollbar: {
+                el: '.swiper-scrollbar',
+            },
+            history: {
+                root: this._router.url,
             }
         });
         return opts;
