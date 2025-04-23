@@ -97,7 +97,7 @@ export type NgSwiperOptions = Omit<
 >;
 
 /** Kind of swiper feature provided in `provideNgSwiperFeatures)` */
-export const enum SwiperFeatureKind {
+export enum SwiperFeatureKind {
     Config,
     A11y,
     Autoplay,
@@ -485,7 +485,7 @@ export function moduleNotExists(
     module: SwiperModule,
     modules?: SwiperModule[],
 ): boolean {
-    return modules?.findIndex((mods) => mods.name === module.name) === -1;
+    return !modules || modules?.findIndex((mods) => mods.name === module.name) === -1;
 }
 
 /**
@@ -507,7 +507,9 @@ export function combineFeaturesToOptions(
     features.forEach((feature) => {
         switch (feature.ɵkind) {
             case SwiperFeatureKind.A11y:
-                options.modules?.push(A11y);
+                if (moduleNotExists(A11y, options.modules)) {
+                    options.modules?.push(A11y);
+                }
                 options.a11y = feature.options;
                 break;
             case SwiperFeatureKind.Autoplay:

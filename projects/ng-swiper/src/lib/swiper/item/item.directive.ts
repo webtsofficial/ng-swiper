@@ -6,7 +6,7 @@ import { SwiperComponent } from '../swiper.component';
     selector: '[ngSwiperItem]',
     host: {
         '[id]': 'id',
-        '[class]': 'options.slideClass || "swiper-slide"',
+        '[class]': 'options?.slideClass || "swiper-slide"',
         'aria-roledescription': 'slide',
     },
 })
@@ -14,9 +14,9 @@ export class SwiperItemDirective {
     static nextId: number = 0;
     id = `ng-swiper-item-${SwiperItemDirective.nextId++}`;
 
-    private _swiper = inject(SwiperComponent, { host: true });
+    private _swiper = inject(SwiperComponent, { host: true, optional: true });
 
-    get options(): SwiperOptions {
-        return this._swiper.currentOptions();
+    get options(): SwiperOptions | undefined {
+        return this._swiper?.currentOptions();
     }
 }
