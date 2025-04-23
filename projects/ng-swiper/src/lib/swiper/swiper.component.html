@@ -1,0 +1,23 @@
+@let opts = currentOptions();
+
+<div [class]="opts.wrapperClass || 'swiper-wrapper'">
+    <ng-content select="[ngSwiperItem]" />
+</div>
+
+<!-- pagination -->
+@if (opts.pagination) {
+    <div class="swiper-pagination"></div>
+}
+
+<!-- navigation -->
+@if (opts.navigation) {
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+}
+
+<!-- scrollbar -->
+@if (opts.scrollbar) {
+    <div class="swiper-scrollbar"></div>
+}
+
+<ng-content />
