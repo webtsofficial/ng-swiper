@@ -1,10 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Component, input } from '@angular/core';
+import {Component, input, InputSignal} from '@angular/core';
 import { SwiperOptions } from 'swiper/types';
 import { NG_SWIPER_DEFAULT_OPTIONS } from '../swiper.provider';
 import { SwiperItemDirective } from './item';
 import { SwiperComponent } from './swiper.component';
+import {By} from '@angular/platform-browser';
+
+abstract class AbstractTestSwiperComponent {
+    abstract options: InputSignal<SwiperOptions>;
+}
 
 @Component({
     imports: [SwiperComponent, SwiperItemDirective],
@@ -19,22 +24,24 @@ import { SwiperComponent } from './swiper.component';
         <div ngSwiperItem>Item 8</div>
     </ng-swiper>`,
 })
-class TestSwiperComponent {
+class TestSwiperComponent extends AbstractTestSwiperComponent {
     options = input<SwiperOptions>(NG_SWIPER_DEFAULT_OPTIONS);
 }
 
 describe('SwiperComponent', () => {
-    let component: SwiperComponent;
-    let fixture: ComponentFixture<SwiperComponent>;
+    let component: AbstractTestSwiperComponent;
+    let swiper: SwiperComponent;
+    let fixture: ComponentFixture<TestSwiperComponent>;
 
     describe('basics', () => {
         beforeEach(async () => {
             await TestBed.configureTestingModule({
-                imports: [SwiperComponent],
+                imports: [TestSwiperComponent],
             }).compileComponents();
 
-            fixture = TestBed.createComponent(SwiperComponent);
+            fixture = TestBed.createComponent(TestSwiperComponent);
             component = fixture.componentInstance;
+            swiper = fixture.debugElement.query(By.directive(SwiperComponent)).componentInstance;
             fixture.detectChanges();
         });
 

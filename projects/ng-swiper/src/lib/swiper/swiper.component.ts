@@ -8,7 +8,7 @@ import {
     ElementRef,
     inject,
     Injector,
-    input, untracked,
+    input, OnDestroy, untracked,
     ViewEncapsulation,
 } from '@angular/core';
 import Swiper from 'swiper';
@@ -30,7 +30,7 @@ import {Router} from '@angular/router';
         class: 'ng-swiper swiper',
     },
 })
-export class SwiperComponent implements AfterContentInit, AfterViewInit {
+export class SwiperComponent implements AfterContentInit, AfterViewInit, OnDestroy {
     static nextId: number = 0;
     id = `ng-swiper-${SwiperComponent.nextId++}`;
 
@@ -77,6 +77,10 @@ export class SwiperComponent implements AfterContentInit, AfterViewInit {
             ),
             {injector: this._injector},
         );
+    }
+
+    ngOnDestroy(): void {
+        this.swiper?.destroy();
     }
 
     private _init(opts: SwiperOptions, items: readonly SwiperItemDirective[]): void {

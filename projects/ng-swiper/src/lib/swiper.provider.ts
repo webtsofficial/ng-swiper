@@ -440,7 +440,7 @@ export function withVirtual(
  * Creates a configuration function for the Swiper Zoom module.
  * This module enables zooming into images within slides.
  *
- * @param options - The `ZoomOption | booleans` for the Zoom module.
+ * @param options - The `ZoomOptions | booleans` for the Zoom module.
  * @returns A SwiperFeature object for the Zoom feature.
  */
 export function withZoom(

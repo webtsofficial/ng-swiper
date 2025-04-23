@@ -115,6 +115,16 @@
                         }
                     },
                     "defaultConfiguration": "production"
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": [
+                            "projects/ng-swiper/**/*.ts",
+                            "projects/ng-swiper/**/*.html"
+                        ],
+                        "eslintConfig": "projects/ng-swiper/eslint.config.js"
+                    }
                 }
             }
         }
