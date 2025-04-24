@@ -1,3 +1,5 @@
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/webtsofficial/ng-swiper?utm_source=oss&utm_medium=github&utm_campaign=webtsofficial%2Fng-swiper&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+
 # NgSwiperLib
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.8.
